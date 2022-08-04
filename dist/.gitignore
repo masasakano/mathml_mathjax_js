@@ -1,4 +1,9 @@
 # This file varies, depending on branches.
 # .gitignore is never ignored.
 ./*
-!README.md
+README.md
+!.gitignore
+!*.min.js
+!*.html
+!*.xhtml
+!*.css
