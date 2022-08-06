@@ -3,15 +3,20 @@
 #
 # uglifyjs and pandoc are assumed to be in the command-search path.
 
-ALL	= dist/README.html dist/mathml-mpadded.min.js dist/mathml-mpadded-3-2-2.min.js dist/mathml-mpadded-2-7-7.min.js
+# Target README/index HTML file for publishing (in gh-pages branch only)
+# In Github/Pages, it seems it has to be index.(html|md) or README.md on the root directory
+#tgt_readme_html	= dist/README.html
+tgt_readme_html	= index.html
+
+ALL	= $(tgt_readme_html) dist/mathml-mpadded.min.js dist/mathml-mpadded-3-2-2.min.js dist/mathml-mpadded-2-7-7.min.js
 
 pandocopts	= -s -N --section-divs -t html5 --toc --shift-heading-level-by=-1 --metadata title="Handle browser-dependence for MathML with Mathjax" -o
 
-.SUFFIXES:	.js .md
+.SUFFIXES:	.js .md .html
 
 all: $(ALL)
 
-dist/README.html: README.md
+$(tgt_readme_html): README.md
 	pandoc $(pandocopts) $@ $<
         # The original <h1> is ignored but title is converted to <h1>
 
@@ -34,5 +39,5 @@ test:
 
 # To forcibly update the HTML version of README.  The standard 
 doc:
-	pandoc $(pandocopts) dist/README.html README.md
+	pandoc $(pandocopts) $(tgt_readme_html) README.md
 

@@ -90,3 +90,6 @@ yarn-debug.log*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 
+# For the branches except for gh-pages
+index.html
+

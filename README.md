@@ -121,13 +121,13 @@ In the developer environment, the following has to be available.
   * `mocha`, `chai`, `jsdom` for testing.
   * These should be installed with `npm install` at the top directory.
 * `pandoc`
-  * To create a HTML file for distribution.
+  * To create a HTML file from the markdown file (`README.md`) for distribution.
 
 ### make ###
 
-To basic command is `make`, which generates or updates minified (Common) JavsScript files (see below) and `README.html` under the `dist/` directory, if any of the relevant files have been updated since the last update.
+To basic command is `make`, which generates or updates minified (Common) JavsScript files (see below) under the `dist/` directory and `index.html`, if any of the relevant files have been updated since the last update.
 
-If you want to forcibly update `dist/README.html`, run `make doc` .
+If you want to forcibly update `index.html` (from `README.md`), run `make doc` .
 
 Routine testing (unit-testing) is carried out with `make test` at the top directory.
 It is far from sufficient.  More browser-dependent test frameworks are desirable.
