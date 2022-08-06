@@ -1,0 +1,2 @@
+This package is licensed under the Mozilla Public License Version 2.0 (MPL 2), found on https://www.mozilla.org/en-US/MPL/2.0/
+

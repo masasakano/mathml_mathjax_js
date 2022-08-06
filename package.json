@@ -1,0 +1,33 @@
+{
+  "name": "mathml_mathjax_js",
+  "version": "1.0.0",
+  "description": "MathML-Mathjax helper JavaScript functions.",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masasakano/mathml_mathjax_js.git"
+  },
+  "keywords": [
+    "MathML",
+    "Mathjax",
+    "JavaScript"
+  ],
+  "author": "Masa Sakano",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/masasakano/mathml_mathjax_js/issues"
+  },
+  "homepage": "https://github.com/masasakano/mathml_mathjax_js#readme",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "jsdom": "^20.0.0",
+    "mocha": "^10.0.0"
+  }
+}
