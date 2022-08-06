@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Test of MathML/Mathjax</title>
+  <script src="https://masasakano.github.io/mathml_mathjax_js/dist/mathml-mpadded.min.js" data-mathjax-version="3.1.0"> </script>
+  <script>
+   // H2 title is modified according to the browser and Mathjax version if loaded.
+   (function(){window.addEventListener("load",function(){
+     var div_loaded = document.querySelectorAll("div#mathjax_is_loaded");
+     if (div_loaded.length) {
+       document.getElementById("q2").innerHTML = "(Chrome-like)";
+       var versi = "(=Mathjax-"+div_loaded[0].querySelectorAll('meta[itemprop="version"]')[0].getAttribute("content")+")";
+       document.getElementById("q1").innerHTML = versi;  // Mathjax Version
+     } else {
+       document.getElementById("q2").innerHTML = "(Firefox/Safari)";
+     }
+   })})();
+  </script>
+</head>
+<body>
+
+<h2>Test-Any<span id="q1"></span> <span id="q2"></span></h2>
+
+<p>
+Using <i>a</i>, the formula
+<math xmlns="http://www.w3.org/1998/Math/MathML" alttext="\sqrt{a}">
+  <msqrt>
+    <mi>a</mi>
+  </msqrt>
+</math>
+is displayed inline.
+</p>
+ 
+<math xmlns="http://www.w3.org/1998/Math/MathML" alttext="1 = \sqrt{1} = \sqrt{(-1)\times(-1)} \ne \sqrt{-1}\times\sqrt{-1} ">
+<mtable class="m-eqnarray-starred" displaystyle="true" style="display: block; margin-top: 1.0em; margin-bottom: 2.0em">
+  <mtr>
+    <mtd columnalign="right"> <mn>1</mn> </mtd>
+    <mtd columnalign="left">  <mo>=</mo> </mtd>
+    <mtd columnalign="left"> <msqrt> <mn>1</mn> </msqrt> </mtd>
+  </mtr><mtr>
+    <mtd columnalign="right"> </mtd>
+    <mtd columnalign="left"> <mo>=</mo> </mtd>
+    <mtd columnalign="left"> <msqrt> <mrow>
+      <mrow>
+      	<mo form="prefix">(</mo> <mo>-</mo> <mn>1</mn> <mo form="postfix">)</mo>
+      </mrow>
+      <mo>&#x000D7;</mo>
+      <mrow>
+        <mo form="prefix">(</mo> <mo>-</mo> <mn>1</mn> <mo form="postfix">)</mo>
+      </mrow>
+    </mrow> </msqrt> </mtd>
+  </mtr> <mtr>
+    <mtd columnalign="right"> </mtd>
+    <mtd columnalign="left"> <mo>≠</mo> </mtd>
+    <mtd columnalign="left">
+      <msqrt> <mo>-</mo> <mn>1</mn> </msqrt>
+      <mo>&#x000D7;</mo>
+      <msqrt> <mo>-</mo> <mn>1</mn> </msqrt>
+    </mtd>
+  </mtr>
+</mtable>
+</math>
+</body>
+</html>
+
