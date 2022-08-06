@@ -31,3 +31,6 @@
 .\#*
 .\~*\#
 
+# For gh-pages branch only
+!index.html
+

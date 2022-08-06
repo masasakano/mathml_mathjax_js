@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Handle browser-dependence for MathML with MathJax</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: 1;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Handle browser-dependence for MathML with MathJax</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1</span> Introduction</a>
+<ul>
+<li><a href="#predecessor-of-this-package"
+id="toc-predecessor-of-this-package"><span
+class="toc-section-number">1.1</span> Predecessor of This
+Package</a></li>
+<li><a href="#background" id="toc-background"><span
+class="toc-section-number">1.2</span> Background</a></li>
+</ul></li>
+<li><a href="#how-to-use-the-code" id="toc-how-to-use-the-code"><span
+class="toc-section-number">2</span> How To Use the Code</a>
+<ul>
+<li><a href="#demo" id="toc-demo"><span
+class="toc-section-number">2.1</span> Demo</a></li>
+</ul></li>
+<li><a href="#limitations" id="toc-limitations"><span
+class="toc-section-number">3</span> Limitations</a></li>
+<li><a href="#development" id="toc-development"><span
+class="toc-section-number">4</span> Development</a>
+<ul>
+<li><a href="#make" id="toc-make"><span
+class="toc-section-number">4.1</span> make</a></li>
+<li><a href="#minify-and-dist" id="toc-minify-and-dist"><span
+class="toc-section-number">4.2</span> Minify and “dist”</a></li>
+<li><a href="#publishing" id="toc-publishing"><span
+class="toc-section-number">4.3</span> Publishing</a></li>
+<li><a href="#todo" id="toc-todo"><span
+class="toc-section-number">4.4</span> TODO</a></li>
+</ul></li>
+<li><a href="#licence-and-disclaimer"
+id="toc-licence-and-disclaimer"><span
+class="toc-section-number">5</span> Licence and Disclaimer</a></li>
+<li><a href="#acknowledgement" id="toc-acknowledgement"><span
+class="toc-section-number">6</span> Acknowledgement</a></li>
+</ul>
+</nav>
+<p>This package provides MathML-MathJax related JavaScripts,
+specifically, a small code to automatically determine to load MathJax or
+not.</p>
+<p>The original repository is hosted on Github: <a
+href="https://github.com/masasakano/mathml_mathjax_js"
+class="uri">https://github.com/masasakano/mathml_mathjax_js</a></p>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span>
+Introduction</h1>
+<p>As of 2022 summer, the web-browser support for MathML is limited; in
+short only Firefox and Safari provide a reasonable support, but not
+Chrome, Opera, or Edge (or Internet Explorer) —— see <a
+href="https://developer.mozilla.org/en-US/docs/Web/MathML#browser_compatibility"
+title="Browser compatibility (of MathML) on mozilla.org">Browser
+compatibility</a> on the Mozilla website. So, if you write a HTML
+containing MathML, many people are unable to read it at least in an
+originally intended form.</p>
+<p>A popular and probably the most powerful fallback to interpret MathML
+by browsers is MathJax, a JavaScript framework. However, MathJax should
+not be loaded for browsers that can natively interpret MathML. This
+package offers a JavaScript code to selectively load MathJax, that is,
+MathJax is loaded only when the browser is a visual browser and does not
+interpret MathML.</p>
+<section id="predecessor-of-this-package" class="level2"
+data-number="1.1">
+<h2 data-number="1.1"><span class="header-section-number">1.1</span>
+Predecessor of This Package</h2>
+<p>In mozilla.org, specifically in Section “<a
+href="https://developer.mozilla.org/en-US/docs/Web/MathML/Authoring#fallback_for_browsers_without_mathml_support"
+title="Fallback for browsers without mathml support)">Fallback</a>”,
+there is a guideline of how to deal with the browser-dependence.
+Unfortunately, the document seems obsolete outdated as of 2022
+August.</p>
+<p>In short, the JavaScripts described in the Mozilla site no longer
+work, as they fail to load MathJax JavaScript. Indeed, some JavaScripts
+contain hard-coded URIs for MathJax JavaScript, the hosting URIs of
+which are outdated, presumably because of the <a
+href="https://www.mathjax.org/cdn-shutting-down/"
+title="MathJax CDN shutting down on April 30, 2017. Alternatives available.">shutdown
+of the cdn server on mathjax.org</a>) in 2017.</p>
+<p>The couple of pieces of the main JavaScript code introduced in the
+Mozilla site were obviously developped (or at least published) by <a
+href="https://github.com/fred-wang/Mathzilla">Frédéric Wang</a>.
+However, I have failed to locate the original repository for the set of
+minified code, including <a
+href="https://fred-wang.github.io/mathjax.js/mpadded-min.js"><code>mpadded-min.js</code></a>.
+In fact, the <a href="https://github.com/fred-wang/Mathzilla">original
+repository of Mathzilla</a>, a collection of MathML-realted code
+developed by the same author, comes with a warning now (as of 2022
+August):</p>
+<blockquote>
+<p>Warning: This directory contains some obsolete or experimental
+content and is only kept for historical purpose.</p>
+</blockquote>
+<p>(Some or all of) The JavaScripts in this package are based on the
+minified code introduced in the above-mentioned <a
+href="https://developer.mozilla.org/en-US/docs/Web/MathML/Authoring#fallback_for_browsers_without_mathml_support"
+title="Fallback for browsers without mathml support)">Mozilla
+document</a>. The major point of modification is that the URIs for
+MathJax are updated and work at the time of writing. I note that the
+version number has to be explicitly given in this package, unlike the
+original minified code, which simply specifies the latest version,
+because the new hosting site <a href="https://cdnjs.cloudflare.com/"
+class="uri">https://cdnjs.cloudflare.com/</a> gives no option to specify
+the latest version but requires you to specify the version
+explicitly.</p>
+<p>This package is licensed under the <a
+href="https://www.mozilla.org/en-US/MPL/2.0/">MPL 2</a>.</p>
+</section>
+<section id="background" class="level2" data-number="1.2">
+<h2 data-number="1.2"><span class="header-section-number">1.2</span>
+Background</h2>
+<p>Historically, it is not easy to write mathematical expressions in a
+presentable way on websites. Brian Hayes’s article <a
+href="https://www.americanscientist.org/article/writing-math-on-the-web"
+title="Writing Math on the Web on American Scientist, 2009, vol 97, number 2, p.98">Writing
+Math on the Web</a> published on American Scientist in 2009 summarises
+the situation at the time, for example.</p>
+<p>MathML is probably the most natural way for the purpose, being
+compatible with HTML. It is a text form of mathematical expressions and
+hence is most easily processed by a computer, meaning perhaps optimum
+for indexing (for searching etc) and processing for non-visual
+environments, such as auditorial browsers. However, MathML does have
+drawbacks. In short, MathML is not human-friendly. It is hard to read
+and even harder to write, requiring a lot of effort to write even the
+smallest piece of mathematical expression. I guess most MathML documents
+on the Internet were generated, machine-converted from a different
+format. Also, the format is fairly lengthy and so needs a slightly more
+amount of data storage and data transfer and computer power to
+interpret, although the former is nothing compared with binary such as
+images and the latter is probably nothing, either, in the modern
+computer standard.</p>
+<p>There are some fallback mechanisms for MathML so browsers that cannot
+natively interpret MathML can display it nicely. Also, there are
+alternative ways to present maths on websites. Here is a brief summary
+(though incomplete).</p>
+<ol type="1">
+<li>Fallback for MathML
+<ol type="1">
+<li><a href="https://github.com/fred-wang/mathml.css">mathml.css</a>
+<ul>
+<li><strong>Pros</strong>: Relatively simple CSS to interprete MathML to
+be provided with the HTML+MathML.</li>
+<li><strong>Cons</strong>: This works only for a limited (aka most
+basic) subset of MathML. This should not be provided for browsers that
+can interprete MathML. Therefore, the website must judge the user’s
+browser or instruct users’ choices of the browser (for example, separate
+pages for the same contents should be provided, depending on the
+browser).</li>
+</ul></li>
+<li><a href="https://www.mathjax.org/">MathJax</a>
+<ul>
+<li><strong>Pros</strong>: Most powerful JavaScript fallback. It works
+in all major visual browsers. It can interprete a vast majority of
+MathML, though still incomplete (as of Version 3.2.2 in 2022 August),
+e.g., it does not interpret the <code>rowspan</code> attribute for the
+MathML tag <code>mtd</code> in <code>mtable</code>.</li>
+<li><strong>Cons</strong>: Like <a
+href="https://github.com/fred-wang/mathml.css">mathml.css</a>, this
+should not be provided for browsers that can interprete MathML, although
+in most cases the browser-native and MathJax interpretations of MathML
+(by the browser that can natively interpret MathML) are pretty similar,
+except some unsupported cases by MathJax.</li>
+</ul></li>
+<li><a href="https://katex.org/">KaTeX</a>
+<ul>
+<li><strong>Pros</strong>: Similar to MathJax, but processing is much
+lighter and faster.</li>
+<li><strong>Cons</strong>: The range of support of MathML is more
+limited than MathJax (at least as of 2022 August). Like <a
+href="https://github.com/fred-wang/mathml.css">mathml.css</a>, this
+should not be provided for browsers that can interprete MathML. If one
+does, the chance of failure for the correct interpretation is higher
+than MathJax.</li>
+</ul></li>
+</ol></li>
+<li>Alternative way to present mathematical expressions
+<ol type="1">
+<li>PDF or epub
+<ul>
+<li><strong>Pros</strong>: What a user sees is what the author
+intends.</li>
+<li><strong>Cons</strong>: Unfriendly for automated processing,
+including indexing and searching. Not suitable for non-visual
+environments, such as for auditorial or text browsers.</li>
+</ul></li>
+<li>conversion to images; famously, <code>latex2html</code> converts
+LaTeX format into HTML, in which all the mathematical expressions are
+converted into images.
+<ul>
+<li><strong>Pros</strong>: The document is mostly computer-friendly,
+like searchable, <strong>except</strong> the mathematical
+expressions.</li>
+<li><strong>Cons</strong>: The same problem as for the PDF about
+mathematical expression.</li>
+</ul></li>
+<li>LaTeX (or AMS-TeX or even plain TeX) source code
+<ul>
+<li><strong>Pros</strong>: A gold standard to write mathematical
+expressions in the text form (in ASCII, UTF-8, etc). One of the easiest
+to write (though the learning cost is fairly expensive). Pretty computer
+friendly, though LaTeX does not care the semantics.</li>
+<li><strong>Cons</strong>: Very hard to read, except for the simplest
+ones. Not presentable on websites as it is, partly because there is no
+official standard to specify the form in the website protocol and no
+browsers natively interpret LaTeX.</li>
+</ul></li>
+<li>On-the-spot interpretation of LaTeX-style expressions embedded in
+HTML
+<ul>
+<li>Popular ones inclulde <a href="https://www.mathjax.org/">MathJax</a>
+and <a href="https://katex.org/">KaTeX</a>. See a <a
+href="https://alternativeto.net/software/mathjax/">list of
+alternatives</a>. https://alternativeto.net/software/mathjax/</li>
+<li><strong>Pros</strong>: Maths expressions are pretty easy to write
+(providing the author is knowledeable about LaTeX) and is easier to read
+than MathML. Indexing by search engines is in principle relatively easy,
+though it probably is not for users’ environments. Browsers do not need
+to do anything, except interpreting the JavaScript code.</li>
+<li><strong>Cons</strong>: As far as the existing frameworks are
+concerned, they are no use (or maybe arguably worse?) for non-visual or
+text-only (terminal-like) environments, though technically it is
+possible to develop systems to accommodate a wide variety of
+environments. No semantics are preserved.</li>
+</ul></li>
+<li><a href="http://asciimath.org/">AsciiMath</a>
+<ul>
+<li><strong>Pros</strong>: Merginally simpler to write than LaTeX.</li>
+<li><strong>Cons</strong>: Tha <a href="http://git.io/X84VQQ">native
+JavaScript interpreter</a> works only on Firefox and Safari, though,
+alternatively, <a href="https://www.mathjax.org/">MathJax</a> can also
+interpret it and works in all major visual browsers. Like LaTeX, (I
+think) it does not care the semantics. The learning cost to write is
+still high, though seemingly lower than LaTeX and though it is designed
+so that people knowledeable about LaTeX can migrate fairly easily. Much
+less popular than LaTeX, which means less people can actually read it,
+though the simplest form is admittedly intuitive and can be interpreted
+by anyone regardless of their knowledge of AsciiMath.</li>
+</ul></li>
+</ol></li>
+</ol>
+</section>
+</section>
+<section id="how-to-use-the-code" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> How To
+Use the Code</h1>
+<p>Include one of the following inside (preferably) the
+<code>&lt;head&gt;</code> element in the HTML page.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://PATH.example.com/dist/mathml-mpadded-3-2-2.min.js&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;/script&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://PATH.example.com/dist/mathml-mpadded-2-7-7.min.js&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;/script&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://PATH.example.com/dist/mathml-mpadded.min.js&quot;</span> <span class="er">data-mathjax-version</span><span class="ot">=</span><span class="st">&quot;3.1.0&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;/script&gt;</span></span></code></pre></div>
+<p>Their differences are potential versions of MathJax to be loaded
+<em>if</em> MathJax is found to be necessary.</p>
+<p>The first one is the latest release one at the time of writing and
+the second one is (I think) the last release of MathJax version 2. The
+third one is a generic one, which loads the user-specified version of
+MathJax. Note that it assumes no other <code>&lt;script&gt;</code> tags
+in the HTML from which the JavaScript is called have a
+<code>data-mathjax-version</code> attribute.</p>
+<p>As soon as the HTML is read, if a browser does not deal with MathML,
+it automatically load MathJax. And if MathJax is loaded, the following
+set of tags (with the version of the loaded MathJax) is inserted at the
+beginning of the <code>&lt;body&gt;</code>, which you can use in your
+own script/CSS.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;div</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;mathjax_is_loaded&quot;</span> <span class="er">itemscope</span><span class="kw">&gt;&lt;meta</span> <span class="er">itemprop</span><span class="ot">=</span><span class="st">&quot;version&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;3.2.2&quot;</span><span class="kw">&gt;&lt;/div&gt;</span></span></code></pre></div>
+<p>The tag to load MathJax is not added (existing statements are
+unaffected anyway) if either the content contains no MathML or the
+browser can handle MathML more or less (in practice, if the browser is
+either Firefox or Safari as of 2022 Augurst), and nor such tag is
+inserted. In such cases, the above three do not mofidy the existing
+contents at all.</p>
+<section id="demo" class="level2" data-number="2.1">
+<h2 data-number="2.1"><span class="header-section-number">2.1</span>
+Demo</h2>
+<p><code>dist/</code> directory contains a couple of MathML HTMLs, in
+the header of which a JavaScript of this package is specified.</p>
+</section>
+</section>
+<section id="limitations" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span>
+Limitations</h1>
+<p>The algorithm assumes a few points:</p>
+<ul>
+<li>The initial tag for MathML (<code>&lt;math&gt;</code>) must contain
+the attribute
+<code>xmlns="http://www.w3.org/1998/Math/MathML"</code>.</li>
+<li>The locations of MathJax on Cloudflare are hard-coded.
+<ul>
+<li>If MathJax of the specified version is not found on the link, the
+JavaScript simply ends and there is no fallback.</li>
+<li>The version prior to 2 is not supported. The version higher than 3,
+if released ever in the future, will work, <strong>providing</strong>
+the format of the URI is identical.</li>
+</ul></li>
+<li>The <code>data-mathjax-version</code> attribute in
+<code>&lt;script&gt;</code> tags must be unique in the HTML.
+<ul>
+<li>This constraint should be able to be removed……</li>
+</ul></li>
+<li>The minified JSs work with classic JS, not ES6.
+<ul>
+<li>However, the source code in the repository is compatible only with
+ES6 and not with classic JS. It is because of convenience for
+unit-testing purposes.</li>
+</ul></li>
+<li>The algorithm relies on the visual appearance of browser’s handling
+of MathML. In other words, it would not work with non-visual web
+browsers.</li>
+</ul>
+</section>
+<section id="development" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span>
+Development</h1>
+<p>In the developer environment, the following has to be available.</p>
+<ul>
+<li>standard <code>make</code></li>
+<li><code>Ruby</code> (any version)
+<ul>
+<li>used in <code>Makefile</code></li>
+</ul></li>
+<li><code>npm</code>
+<ul>
+<li><code>uglifyjs</code> for minifying in <code>Makefile</code>.</li>
+<li><code>mocha</code>, <code>chai</code>, <code>jsdom</code> for
+testing.</li>
+<li>These should be installed with <code>npm install</code> at the top
+directory.</li>
+</ul></li>
+<li><code>pandoc</code>
+<ul>
+<li>To create a HTML file from the markdown file
+(<code>README.md</code>) for distribution.</li>
+</ul></li>
+</ul>
+<section id="make" class="level2" data-number="4.1">
+<h2 data-number="4.1"><span class="header-section-number">4.1</span>
+make</h2>
+<p>To basic command is <code>make</code>, which generates or updates
+minified (Common) JavsScript files (see below) under the
+<code>dist/</code> directory and <code>index.html</code>, if any of the
+relevant files have been updated since the last update.</p>
+<p>If you want to forcibly update <code>index.html</code> (from
+<code>README.md</code>), run <code>make doc</code> .</p>
+<p>Routine testing (unit-testing) is carried out with
+<code>make test</code> at the top directory. It is far from sufficient.
+More browser-dependent test frameworks are desirable.</p>
+</section>
+<section id="minify-and-dist" class="level2" data-number="4.2">
+<h2 data-number="4.2"><span class="header-section-number">4.2</span>
+Minify and “dist”</h2>
+<p>The minified and combined versions of JavaScript are generated under
+<code>dist/</code> directory with <code>make</code> executed at the top
+directory. The generated minified ones are compatible with classic JS,
+whereas the original ones under <code>src</code> directory are not.</p>
+<p>In minification, the core function
+<code>src/mathml-mpadded-core.js</code> is combined with one of the
+wrappers, such as <code>src/mathml-mpadded.js</code> .</p>
+</section>
+<section id="publishing" class="level2" data-number="4.3">
+<h2 data-number="4.3"><span class="header-section-number">4.3</span>
+Publishing</h2>
+<p>The files under the directory <code>dist/</code> are automatically
+published on <a href="https://username.github.io"
+class="uri">https://username.github.io</a> in a way they (JavaScript and
+HTML files) are available to be called directly from websites.</p>
+<p>All the generated files under the directory <code>dist/</code> are
+not registered in the master branch, whereas the static files,
+specifically <code>dist/demo/sample-*.html</code> and
+<code>.gitignore</code>, are. The <code>gh-pages</code> branch contains
+those files under the directory <code>dist/</code> in the repository,
+but almost none of the files in the other directories.</p>
+</section>
+<section id="todo" class="level2" data-number="4.4">
+<h2 data-number="4.4"><span class="header-section-number">4.4</span>
+TODO</h2>
+<ul>
+<li>The constraint requiring that <code>data-mathjax-version</code>
+attribute in <code>&lt;script&gt;</code> tags must be unique in the HTML
+should be removed.
+<ul>
+<li>In Common JS, <code>document.currentScript</code> may work, but it
+is hard to make it work in a separate JS file like in this case; see <a
+href="https://stackoverflow.com/questions/38769103/document-currentscript-is-null"
+title="document.currentScript is null">Stackoverflow</a>, which is
+summarised in <a
+href="https://newbedev.com/document-currentscript-is-null"
+title="document.currentScript is null">newbedev.com</a>. In ES6,
+<code>import.meta.my_attr</code> <a
+href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import.meta"
+title="import.meta in Mozilla">should work</a>.</li>
+</ul></li>
+<li>It would be nice to implement the other two methods by Frédéric Wang
+mentioned in the <a
+href="https://developer.mozilla.org/en-US/docs/Web/MathML/Authoring#fallback_for_browsers_without_mathml_support"
+title="Fallback for browsers without mathml support)">mozilla
+website</a>.</li>
+</ul>
+</section>
+</section>
+<section id="licence-and-disclaimer" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Licence
+and Disclaimer</h1>
+<p>The licence is <a href="https://www.mozilla.org/en-US/MPL/2.0/">MPL
+2</a>, as described in <code>LICENSE.txt</code> in the package.</p>
+<p>The author owes no responsibility for the package. Use it at your own
+risk.</p>
+</section>
+<section id="acknowledgement" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span>
+Acknowledgement</h1>
+<p>I thank Frédéric Wang and Mozilla team for the earlier development. I
+hope MathML will be fully supported by all browsers one day.</p>
+<hr />
+<p>Author: Masa Sakano - <a href="https://github.com/masasakano/"
+class="uri">https://github.com/masasakano/</a></p>
+</section>
+</body>
+</html>
