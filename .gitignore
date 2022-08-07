@@ -32,5 +32,7 @@
 .\~*\#
 
 # For gh-pages branch only
-!index.html
+!README.md
+!index-manual.html
+!Makefile
 

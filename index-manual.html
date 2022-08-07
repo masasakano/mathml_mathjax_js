@@ -274,7 +274,10 @@ specifically, a small code to automatically determine to load MathJax or
 not.</p>
 <p>The original repository is hosted on Github: <a
 href="https://github.com/masasakano/mathml_mathjax_js"
-class="uri">https://github.com/masasakano/mathml_mathjax_js</a></p>
+class="uri">https://github.com/masasakano/mathml_mathjax_js</a><br />
+The JavaScript and sample HTML files are ported to <a
+href="https://masasakano.github.io/mathml_mathjax_js/"
+class="uri">https://masasakano.github.io/mathml_mathjax_js/</a></p>
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span>
 Introduction</h1>
@@ -476,11 +479,12 @@ by anyone regardless of their knowledge of AsciiMath.</li>
 <h1 data-number="2"><span class="header-section-number">2</span> How To
 Use the Code</h1>
 <p>Include one of the following inside (preferably) the
-<code>&lt;head&gt;</code> element in the HTML page.</p>
+<code>&lt;head&gt;</code> element in the HTML page. For the last one, an
+arbitrary (valid) MathJax version number can be specified.</p>
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://PATH.example.com/dist/mathml-mpadded-3-2-2.min.js&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;/script&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://PATH.example.com/dist/mathml-mpadded-2-7-7.min.js&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;/script&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://PATH.example.com/dist/mathml-mpadded.min.js&quot;</span> <span class="er">data-mathjax-version</span><span class="ot">=</span><span class="st">&quot;3.1.0&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;/script&gt;</span></span></code></pre></div>
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://masasakano.github.io/mathml_mathjax_js/dist/mathml-mpadded-3-2-2.min.js&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;/script&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://masasakano.github.io/mathml_mathjax_js/dist/mathml-mpadded-2-7-7.min.js&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;/script&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> <span class="kw">&lt;script</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://masasakano.github.io/mathml_mathjax_js/dist/mathml-mpadded.min.js&quot;</span> <span class="er">data-mathjax-version</span><span class="ot">=</span><span class="st">&quot;3.1.0&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;/script&gt;</span></span></code></pre></div>
 <p>Their differences are potential versions of MathJax to be loaded
 <em>if</em> MathJax is found to be necessary.</p>
 <p>The first one is the latest release one at the time of writing and
@@ -505,8 +509,10 @@ contents at all.</p>
 <section id="demo" class="level2" data-number="2.1">
 <h2 data-number="2.1"><span class="header-section-number">2.1</span>
 Demo</h2>
-<p><code>dist/</code> directory contains a couple of MathML HTMLs, in
-the header of which a JavaScript of this package is specified.</p>
+<p><a href="https://masasakano.github.io/mathml_mathjax_js/dist/"
+title="dist/ on the hosting github.io website"><code>dist/</code>
+directory</a> contains a couple of MathML HTMLs, in the header of which
+a JavaScript of this package is specified.</p>
 </section>
 </section>
 <section id="limitations" class="level1" data-number="3">
@@ -570,7 +576,7 @@ directory.</li>
 make</h2>
 <p>To basic command is <code>make</code>, which generates or updates
 minified (Common) JavsScript files (see below) under the
-<code>dist/</code> directory and <code>index.html</code>, if any of the
+<code>tmp/</code> directory and <code>index.html</code>, if any of the
 relevant files have been updated since the last update.</p>
 <p>If you want to forcibly update <code>index.html</code> (from
 <code>README.md</code>), run <code>make doc</code> .</p>
@@ -582,26 +588,53 @@ More browser-dependent test frameworks are desirable.</p>
 <h2 data-number="4.2"><span class="header-section-number">4.2</span>
 Minify and “dist”</h2>
 <p>The minified and combined versions of JavaScript are generated under
-<code>dist/</code> directory with <code>make</code> executed at the top
-directory. The generated minified ones are compatible with classic JS,
-whereas the original ones under <code>src</code> directory are not.</p>
+<code>tmp/</code> directory (in the <code>master</code> branch) with
+<code>make</code> executed at the top directory. The generated minified
+ones are compatible with classic JS, whereas the original ones under
+<code>src</code> directory are not.</p>
 <p>In minification, the core function
 <code>src/mathml-mpadded-core.js</code> is combined with one of the
 wrappers, such as <code>src/mathml-mpadded.js</code> .</p>
+<p>The generated JS files under <code>tmp/</code> should be later copied
+into the <code>dist/</code> directory in the <code>gh-pages</code>
+branch. The directory <code>tmp/</code> is registered in both
+<code>master</code> and <code>gh-pages</code> branches (whereas none of
+the normal files but <code>.gitignore</code> under <code>tmp/</code> is
+registered in either) and therefore the generated files are not lost
+during <code>git switch</code>. That is the idea for this separation.
+Note that the standard <code>git diff</code> is unusable in this case
+because <code>XXX.min.js</code> exists only in the <code>gh-pages</code>
+branch whereas the updated <code>XXX.js</code> exists only in the
+<code>master</code> branch. The standard work-flow is as follows:</p>
+<ol type="1">
+<li>In the master branch, edit the files as you like.</li>
+<li><code>make</code> (and <code>make test</code>), which generates
+minified JSs.</li>
+<li><code>git commit</code> (and maybe <code>git push</code>)</li>
+<li><code>git switch gh-pages</code></li>
+<li><code>cd tmp; for f in *.min.js; do diff ../dist/$f $f; done</code></li>
+<li><code>mv MODIFIED.min.js ../dist/</code> (and repeat; n.b., this
+will usually overwrite an existing file.)</li>
+<li><code>git add -u</code> and <code>git commit</code> (and maybe
+<code>git push</code>)</li>
+</ol>
 </section>
 <section id="publishing" class="level2" data-number="4.3">
 <h2 data-number="4.3"><span class="header-section-number">4.3</span>
 Publishing</h2>
 <p>The files under the directory <code>dist/</code> are automatically
-published on <a href="https://username.github.io"
-class="uri">https://username.github.io</a> in a way they (JavaScript and
-HTML files) are available to be called directly from websites.</p>
-<p>All the generated files under the directory <code>dist/</code> are
-not registered in the master branch, whereas the static files,
-specifically <code>dist/demo/sample-*.html</code> and
+published on <a href="https://masasakano.github.io/mathml_mathjax_js/"
+class="uri">https://masasakano.github.io/mathml_mathjax_js/</a> in a way
+they (JavaScript and HTML files) are available to be called directly
+from the website (see <a
+href="https://masasakano.github.io/mathml_mathjax_js/dist/">Index</a>).</p>
+<p>None of the generated files under the directory <code>tmp/</code> (or
+<code>dist/</code>) is registered in the master branch, whereas the
+static files, specifically <code>dist/demo/sample-*.html</code> and
 <code>.gitignore</code>, are. The <code>gh-pages</code> branch contains
-those files under the directory <code>dist/</code> in the repository,
-but almost none of the files in the other directories.</p>
+those files under the directory <code>dist/</code> in the repository
+(but none under <code>tmp/</code>), but almost none of the files in the
+other directories.</p>
 </section>
 <section id="todo" class="level2" data-number="4.4">
 <h2 data-number="4.4"><span class="header-section-number">4.4</span>
