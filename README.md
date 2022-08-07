@@ -4,7 +4,8 @@ Handle browser-dependence for MathML with MathJax
 
 This package provides MathML-MathJax related JavaScripts, specifically, a small code to automatically determine to load MathJax or not.
 
-The original repository is hosted on Github: <https://github.com/masasakano/mathml_mathjax_js>
+The original repository is hosted on Github: <https://github.com/masasakano/mathml_mathjax_js>  
+The JavaScript and sample HTML files are ported to <https://masasakano.github.io/mathml_mathjax_js/>
 
 ## Introduction ##
 
@@ -69,12 +70,12 @@ There are some fallback mechanisms for MathML so browsers that cannot natively i
 
 ## How To Use the Code ##
 
-Include one of the following inside (preferably) the `<head>` element in the HTML page.
+Include one of the following inside (preferably) the `<head>` element in the HTML page. For the last one, an arbitrary (valid) MathJax version number can be specified.
 
 ```html
- <script src="https://PATH.example.com/dist/mathml-mpadded-3-2-2.min.js"> </script>
- <script src="https://PATH.example.com/dist/mathml-mpadded-2-7-7.min.js"> </script>
- <script src="https://PATH.example.com/dist/mathml-mpadded.min.js" data-mathjax-version="3.1.0"> </script>
+ <script src="https://masasakano.github.io/mathml_mathjax_js/dist/mathml-mpadded-3-2-2.min.js"> </script>
+ <script src="https://masasakano.github.io/mathml_mathjax_js/dist/mathml-mpadded-2-7-7.min.js"> </script>
+ <script src="https://masasakano.github.io/mathml_mathjax_js/dist/mathml-mpadded.min.js" data-mathjax-version="3.1.0"> </script>
 ```
 
 Their differences are potential versions of MathJax to be loaded *if* MathJax is found to be necessary.
@@ -93,7 +94,7 @@ The tag to load MathJax is not added (existing statements are unaffected anyway)
 
 ### Demo ###
 
-`dist/` directory contains a couple of MathML HTMLs, in the header of which a JavaScript of this package is specified.
+[`dist/` directory](https://masasakano.github.io/mathml_mathjax_js/dist/ "dist/ on the hosting github.io website") contains a couple of MathML HTMLs, in the header of which a JavaScript of this package is specified.
 
 ## Limitations ##
 
@@ -125,7 +126,7 @@ In the developer environment, the following has to be available.
 
 ### make ###
 
-To basic command is `make`, which generates or updates minified (Common) JavsScript files (see below) under the `dist/` directory and `index.html`, if any of the relevant files have been updated since the last update.
+To basic command is `make`, which generates or updates minified (Common) JavsScript files (see below) under the `tmp/` directory and `index.html`, if any of the relevant files have been updated since the last update.
 
 If you want to forcibly update `index.html` (from `README.md`), run `make doc` .
 
@@ -134,16 +135,26 @@ It is far from sufficient.  More browser-dependent test frameworks are desirable
 
 ### Minify and "dist" ###
 
-The minified and combined versions of JavaScript are generated under `dist/` directory with `make` executed at the top directory.
+The minified and combined versions of JavaScript are generated under `tmp/` directory (in the `master` branch) with `make` executed at the top directory.
 The generated minified ones are compatible with classic JS, whereas the original ones under `src` directory are not.
 
 In minification, the core function `src/mathml-mpadded-core.js` is combined with one of the wrappers, such as `src/mathml-mpadded.js` .
 
+The generated JS files under `tmp/` should be later copied into the `dist/` directory in the `gh-pages` branch.  The directory `tmp/` is registered in both `master` and `gh-pages` branches (whereas none of the normal files but `.gitignore` under `tmp/` is registered in either) and therefore the generated files are not lost during `git switch`.  That is the idea for this separation. Note that the standard `git diff` is unusable in this case because `XXX.min.js` exists only in the `gh-pages` branch whereas the updated `XXX.js` exists only in the `master` branch. The standard work-flow is as follows:
+
+1. In the master branch, edit the files as you like.
+2. `make` (and `make test`), which generates minified JSs.
+3. `git commit` (and maybe `git push`)
+4. `git switch gh-pages`
+5. `cd tmp; for f in *.min.js; do diff ../dist/$f $f; done`
+6. `mv MODIFIED.min.js ../dist/`  (and repeat; n.b., this will usually overwrite an existing file.)
+7. `git add -u` and `git commit` (and maybe `git push`)
+
 ### Publishing ###
 
-The files under the directory `dist/` are automatically published on <https://username.github.io> in a way they (JavaScript and HTML files) are available to be called directly from websites.
+The files under the directory `dist/` are automatically published on <https://masasakano.github.io/mathml_mathjax_js/> in a way they (JavaScript and HTML files) are available to be called directly from the website (see [Index](https://masasakano.github.io/mathml_mathjax_js/dist/)).
 
-All the generated files under the directory `dist/` are not registered in the master branch, whereas the static files, specifically `dist/demo/sample-*.html` and `.gitignore`, are.  The `gh-pages` branch contains those files under the directory `dist/` in the repository, but almost none of the files in the other directories.
+None of the generated files under the directory `tmp/` (or `dist/`) is registered in the master branch, whereas the static files, specifically `dist/demo/sample-*.html` and `.gitignore`, are.  The `gh-pages` branch contains those files under the directory `dist/` in the repository (but none under `tmp/`), but almost none of the files in the other directories.
 
 ### TODO ###
 

@@ -1,0 +1,4 @@
+# This file varies, depending on branches.
+# .gitignore is never ignored.
+*
+!.gitignore
