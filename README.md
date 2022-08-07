@@ -122,7 +122,7 @@ In the developer environment, the following has to be available.
   * `mocha`, `chai`, `jsdom` for testing.
   * These should be installed with `npm install` at the top directory.
 * `pandoc`
-  * To create a HTML file from the markdown file (`README.md`) for distribution.
+  * To create a HTML file from the markdown file (`README.md`) for local use.
 
 ### make ###
 
@@ -163,7 +163,7 @@ The standard work-flow is as follows:
       * If any diff, `mv MODIFIED.min.js ../dist/`  (n.b., this will usually overwrite an existing file.)
    3. `git diff master -- dist/demo/*.html`  (should return none if no HTML is updated in the master branch.)
       * If any diff, `git checkout master dist/demo/MY_UPDATED.html`
-6. `cd ..; make`  (to update `dist/README.md` if need be (ie., if JS and/or HTML are updated))
+6. `make`  (to update `dist/README.md` if need be (ie., if JS and/or HTML are updated))
 7. `git add -u` and `git commit` (and maybe `git push`)
 
 ### Publishing ###
