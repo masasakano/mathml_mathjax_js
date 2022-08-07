@@ -16,9 +16,18 @@ all: $(ALL)
 $(ALL): dist/demo/*.html dist/*.min.js
 	ruby -e $(rubycom) $^ > $@
 
-.PHONY: clean doc
+.PHONY: clean check doc
 clean:
 	$(RM) dist/*~
+
+# To check if any update like "git checkout master XXX.XX" is required.
+check:
+	wa="git diff master -- README.md"; chk=`$$wa`; if [ "$$chk" != "" ]; then echo "ERROR found: README.md in master has been updated. Run:  $$wa" >&2; exit 1; fi; \
+        wa="git diff master -- dist/demo/*.html"; chk=`$$wa`; \
+          if [ "$$chk" != "" ]; then echo "ERROR found: dist/demo/*.html in master have been updated. Run:  $$wa" >&2; exit 1; fi; \
+        for f in tmp/*.min.js; do \
+          f2=`basename $$f`; wa="diff dist/$$f2 $$f"; chk=`$$wa`; \
+          if [ "$$chk" != "" ]; then echo "ERROR found: $$f is newer. Run:  $$wa" >&2; exit 1; fi; done
 
 # To forcibly update README.
 doc:
