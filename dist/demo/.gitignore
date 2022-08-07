@@ -4,3 +4,7 @@
 !.gitignore
 !README.md
 !sample*.html
+!*.png
+!*.jpg
+!*.svg
+!*.gif

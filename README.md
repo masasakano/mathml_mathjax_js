@@ -15,11 +15,11 @@ A popular and probably the most powerful fallback to interpret MathML by browser
 
 ### Predecessor of This Package ###
 
-In mozilla.org, specifically in Section "[Fallback](https://developer.mozilla.org/en-US/docs/Web/MathML/Authoring#fallback_for_browsers_without_mathml_support "Fallback for browsers without mathml support)")", there is a guideline of how to deal with the browser-dependence.  Unfortunately, the document seems obsolete outdated as of 2022 August.
+In mozilla.org, specifically in Section "[Fallback](https://developer.mozilla.org/en-US/docs/Web/MathML/Authoring#fallback_for_browsers_without_mathml_support "Fallback for browsers without mathml support)")", there is a guideline of how to deal with the browser-dependence.  Unfortunately, the document seems outdated as of 2022 August.
 
 In short, the JavaScripts described in the Mozilla site no longer work, as they fail to load MathJax JavaScript. Indeed, some JavaScripts contain hard-coded URIs for MathJax JavaScript, the hosting URIs of which are outdated, presumably because of the [shutdown of the cdn server on mathjax.org](https://www.mathjax.org/cdn-shutting-down/ "MathJax CDN shutting down on April 30, 2017. Alternatives available.")) in 2017.
 
-The couple of pieces of the main JavaScript code introduced in the Mozilla site were obviously developped (or at least published) by [Frédéric Wang](https://github.com/fred-wang/Mathzilla). However, I have failed to locate the original repository for the set of minified code, including [`mpadded-min.js`](https://fred-wang.github.io/mathjax.js/mpadded-min.js). In fact, the [original repository of Mathzilla](https://github.com/fred-wang/Mathzilla), a collection of MathML-realted code developed by the same author, comes with a warning now (as of 2022 August):
+The couple of pieces of the main JavaScript code introduced in the Mozilla site were obviously developed (or at least published) by [Frédéric Wang](https://github.com/fred-wang/Mathzilla). However, I have failed to locate the original repository for the set of minified code, including [`mpadded-min.js`](https://fred-wang.github.io/mathjax.js/mpadded-min.js). In fact, the [original repository of Mathzilla](https://github.com/fred-wang/Mathzilla), a collection of MathML-related code developed by the same author, comes with a warning now (as of 2022 August):
 
 > Warning: This directory contains some obsolete or experimental content and is only kept for historical purpose.
 
@@ -40,14 +40,14 @@ There are some fallback mechanisms for MathML so browsers that cannot natively i
 
 1. Fallback for MathML
    1. [mathml.css](https://github.com/fred-wang/mathml.css)
-      * **Pros**: Relatively simple CSS to interprete MathML to be provided with the HTML+MathML.
-      * **Cons**: This works only for a limited (aka most basic) subset of MathML. This should not be provided for browsers that can interprete MathML. Therefore, the website must judge the user's browser or instruct users' choices of the browser (for example, separate pages for the same contents should be provided, depending on the browser).
+      * **Pros**: Relatively simple CSS to interpret MathML to be provided with the HTML+MathML.
+      * **Cons**: This works only for a limited (aka most basic) subset of MathML. This should not be provided for browsers that can interpret MathML. Therefore, the website must judge the user's browser or instruct users' choices of the browser (for example, separate pages for the same contents should be provided, depending on the browser).
    2. [MathJax](https://www.mathjax.org/)
-      * **Pros**: Most powerful JavaScript fallback. It works in all major visual browsers. It can interprete a vast majority of MathML, though still incomplete (as of Version 3.2.2 in 2022 August), e.g., it does not interpret the `rowspan` attribute for the MathML tag `mtd` in `mtable`.
-      * **Cons**: Like [mathml.css](https://github.com/fred-wang/mathml.css), this should not be provided for browsers that can interprete MathML, although in most cases the browser-native and MathJax interpretations of MathML (by the browser that can natively interpret MathML) are pretty similar, except some unsupported cases by MathJax.
+      * **Pros**: Most powerful JavaScript fallback. It works in all major visual browsers. It can interpret a vast majority of MathML, though still incomplete (as of Version 3.2.2, the latest stable version in 2022 August), e.g., it does not interpret the `rowspan` attribute for the MathML tag `mtd` in `mtable`.
+      * **Cons**: Like [mathml.css](https://github.com/fred-wang/mathml.css), this should not be provided for browsers that can interpret MathML, although in most cases the browser-native and MathJax interpretations of MathML (by the browser that can natively interpret MathML) are pretty similar, except some unsupported cases by MathJax.
    3. [KaTeX](https://katex.org/)
       * **Pros**: Similar to MathJax, but processing is much lighter and faster.
-      * **Cons**: The range of support of MathML is more limited than MathJax (at least as of 2022 August). Like [mathml.css](https://github.com/fred-wang/mathml.css), this should not be provided for browsers that can interprete MathML. If one does, the chance of failure for the correct interpretation is higher than MathJax.
+      * **Cons**: The range of support of MathML is more limited than MathJax (at least as of 2022 August). Like [mathml.css](https://github.com/fred-wang/mathml.css), this should not be provided for browsers that can interpret MathML. If one does, the chance of failure for the correct interpretation is higher than MathJax.
 2. Alternative way to present mathematical expressions
    1. PDF or epub
       * **Pros**: What a user sees is what the author intends.
@@ -59,13 +59,13 @@ There are some fallback mechanisms for MathML so browsers that cannot natively i
       * **Pros**: A gold standard to write mathematical expressions in the text form (in ASCII, UTF-8, etc). One of the easiest to write (though the learning cost is fairly expensive). Pretty computer friendly, though LaTeX does not care the semantics.
       * **Cons**: Very hard to read, except for the simplest ones. Not presentable on websites as it is, partly because there is no official standard to specify the form in the website protocol and no browsers natively interpret LaTeX.
    4. On-the-spot interpretation of LaTeX-style expressions embedded in HTML
-      * Popular ones inclulde [MathJax](https://www.mathjax.org/) and [KaTeX](https://katex.org/). See a [list of alternatives](https://alternativeto.net/software/mathjax/).
+      * Popular ones include [MathJax](https://www.mathjax.org/) and [KaTeX](https://katex.org/). See a [list of alternatives](https://alternativeto.net/software/mathjax/).
       https://alternativeto.net/software/mathjax/
-      * **Pros**: Maths expressions are pretty easy to write (providing the author is knowledeable about LaTeX) and is easier to read than MathML. Indexing by search engines is in principle relatively easy, though it probably is not for users' environments. Browsers do not need to do anything, except interpreting the JavaScript code.
+      * **Pros**: Maths expressions are pretty easy to write (providing the author is knowledgeable about LaTeX) and is easier to read than MathML. Indexing by search engines is in principle relatively easy, though it probably is not for users' environments. Browsers do not need to do anything, except interpreting the JavaScript code.
       * **Cons**: As far as the existing frameworks are concerned, they are no use (or maybe arguably worse?) for non-visual or text-only (terminal-like) environments, though technically it is possible to develop systems to accommodate a wide variety of environments. No semantics are preserved.
    5. [AsciiMath](http://asciimath.org/)
-      * **Pros**: Merginally simpler to write than LaTeX.
-      * **Cons**: Tha [native JavaScript interpreter](http://git.io/X84VQQ) works only on Firefox and Safari, though, alternatively, [MathJax](https://www.mathjax.org/) can also interpret it and works in all major visual browsers. Like LaTeX, (I think) it does not care the semantics. The learning cost to write is still high, though seemingly lower than LaTeX and though it is designed so that people knowledeable about LaTeX can migrate fairly easily. Much less popular than LaTeX, which means less people can actually read it, though the simplest form is admittedly intuitive and can be interpreted by anyone regardless of their knowledge of AsciiMath.
+      * **Pros**: Marginally simpler to write than LaTeX.
+      * **Cons**: The [native JavaScript interpreter](http://git.io/X84VQQ) works only on Firefox and Safari, though, alternatively, [MathJax](https://www.mathjax.org/) can also interpret it and works in all major visual browsers. Like LaTeX, (I think) it does not care the semantics. The learning cost to write is still high, though seemingly lower than LaTeX and though it is designed so that people knowledgeable about LaTeX can migrate fairly easily. Much less popular than LaTeX, which means less people can actually read it, though the simplest form is admittedly intuitive and can be interpreted by anyone regardless of their knowledge of AsciiMath.
 
 
 ## How To Use the Code ##
@@ -83,18 +83,22 @@ Their differences are potential versions of MathJax to be loaded *if* MathJax is
 The first one is the latest release one at the time of writing and the second one is (I think) the last release of MathJax version 2.
 The third one is a generic one, which loads the user-specified version of MathJax.  Note that it assumes no other `<script>` tags in the HTML from which the JavaScript is called have a `data-mathjax-version` attribute.
 
-As soon as the HTML is read, if a browser does not deal with MathML, it automatically load MathJax.
-And if MathJax is loaded, the following set of tags (with the version of the loaded MathJax) is inserted at the beginning of the `<body>`, which you can use in your own script/CSS.
+Once this script has been run and if it finds a browser does not deal with MathML, it automatically loads MathJax and
+also inserts the following set of tags (with the version of the loaded MathJax) at the beginning of the `<body>`, which you can use in your own script/CSS.
 
 ```html
   <div id="mathjax_is_loaded" itemscope><meta itemprop="version" content="3.2.2"></div>
 ```
 
-The tag to load MathJax is not added (existing statements are unaffected anyway) if either the content contains no MathML or the browser can handle MathML more or less (in practice, if the browser is either Firefox or Safari as of 2022 Augurst), and nor such tag is inserted. In such cases, the above three do not mofidy the existing contents at all.
+Otherwise (in other words, if the browser is either Firefox or Safari as of 2022 August), the above-mentioned tag is not inserted and alters nothing in the existing contents. The tag-insertion is an extra feature which Frédéric Wang's original code did not provide.
+
+ Note that this script has no way to know if the MathJax is loaded before or after this script is loaded and therefore non-existence of the tag does not always mean MathJax is not loaded in general.
 
 ### Demo ###
 
 [`dist/` directory](https://masasakano.github.io/mathml_mathjax_js/dist/ "dist/ on the hosting github.io website") contains a couple of MathML HTMLs, in the header of which a JavaScript of this package is specified.
+
+![MathML interpreted by (Left) Firefox and (Right) Chrome with MathJax](https://masasakano.github.io/mathml_mathjax_js/dist/demo/mathml_mathjax_firefox_chrome.png)
 
 ## Limitations ##
 
@@ -126,7 +130,7 @@ In the developer environment, the following has to be available.
 
 ### make ###
 
-The basic command is `make`. In the master branch, `make` generates or updates minified (Common) JavsScript files (see below) and `README.html` both under the `tmp/` directory, if any of the relevant files have been updated since the last update. The latter `tmp/README.html` is for local use only (for the convenience of development).
+The basic command is `make`. In the master branch, `make` generates or updates minified (Common) JavaScript files (see below) and `README.html` both under the `tmp/` directory, if any of the relevant files have been updated since the last update. The latter `tmp/README.html` is for local use only (for the convenience of development).
 
 If you want to forcibly update `tmp/README.html` (from `README.md`), run `make doc` .
 
@@ -137,7 +141,7 @@ It is far from sufficient.  More browser-dependent test frameworks are desirable
 
 It has the following functions.
 
-* `make` : to update (auto-generate) `dist/README.md` if need be (ie., if JS and/or HTML are updated))
+* `make` : to update (auto-generate) `dist/README.md` if need be (i.e., if JS and/or HTML are updated))
 * `make check` : to check if any update is required.
   * **NOTE**: This function is, although it probably works, not thoroughly tested. You should know which files should be updated (because they have been updated in the *master* branch) before switching to *gh-pages* branch, anyway. So use `make check` to just confirm it.
 
@@ -156,14 +160,14 @@ The standard work-flow is as follows:
 2. `make` (and `make test`), which generates minified JSs.
 3. `git commit` (and maybe `git push`)
 4. `git switch gh-pages` (Move to *gh-pages* branch)
-5. `make check` (to see if there is any update required, ie., if the corresponding file in the master branch has been updated — usually yes; this does the following checks but does not fix the problems)
+5. `make check` (to see if there is any update required, i.e., if the corresponding file in the master branch has been updated — usually yes; this does the following checks but does not fix the problems)
    1. `git diff master -- README.md`
       * If any diff, run ``git checkout master README.md`
    2. `for f in tmp/*.min.js; do diff ../dist/`basename $f` $f; done`
       * If any diff, `mv MODIFIED.min.js ../dist/`  (n.b., this will usually overwrite an existing file.)
    3. `git diff master -- dist/demo/*.html`  (should return none if no HTML is updated in the master branch.)
       * If any diff, `git checkout master dist/demo/MY_UPDATED.html`
-6. `make`  (to update `dist/README.md` if need be (ie., if JS and/or HTML are updated))
+6. `make`  (to update `dist/README.md` if need be (i.e., if JS and/or HTML are updated))
 7. `git add -u` and `git commit` (and maybe `git push`)
 
 ### Publishing ###
@@ -192,3 +196,6 @@ I thank Frédéric Wang and Mozilla team for the earlier development. I hope Mat
 
 Author: Masa Sakano - <https://github.com/masasakano/>
 
+
+<!--  LocalWords:  MathML MathJax JavaScripts
+ -->
