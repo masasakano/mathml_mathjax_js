@@ -5,7 +5,7 @@ Handle browser-dependence for MathML with MathJax
 This package provides MathML-MathJax related JavaScripts, specifically, a small code to automatically determine to load MathJax or not.
 
 The original repository is hosted on Github: <https://github.com/masasakano/mathml_mathjax_js>  
-The JavaScript and sample HTML files are ported to <https://masasakano.github.io/mathml_mathjax_js/>
+The JavaScript and sample HTML files are ported to <https://masasakano.github.io/mathml_mathjax_js/> ([Index](https://masasakano.github.io/mathml_mathjax_js/dist/))
 
 ## Introduction ##
 
@@ -126,9 +126,9 @@ In the developer environment, the following has to be available.
 
 ### make ###
 
-To basic command is `make`, which generates or updates minified (Common) JavsScript files (see below) under the `tmp/` directory and `index.html`, if any of the relevant files have been updated since the last update.
+To basic command is `make`, which generates or updates minified (Common) JavsScript files (see below) and `README.html` both under the `tmp/` directory, if any of the relevant files have been updated since the last update. The latter `tmp/README.html` is for local use only (for the convenience of development).
 
-If you want to forcibly update `index.html` (from `README.md`), run `make doc` .
+If you want to forcibly update `tmp/README.html` (from `README.md`), run `make doc` .
 
 Routine testing (unit-testing) is carried out with `make test` at the top directory.
 It is far from sufficient.  More browser-dependent test frameworks are desirable.
@@ -148,7 +148,10 @@ The generated JS files under `tmp/` should be later copied into the `dist/` dire
 4. `git switch gh-pages`
 5. `cd tmp; for f in *.min.js; do diff ../dist/$f $f; done`
 6. `mv MODIFIED.min.js ../dist/`  (and repeat; n.b., this will usually overwrite an existing file.)
-7. `git add -u` and `git commit` (and maybe `git push`)
+7. `git diff master -- dist/demo/*.html`  (should return none if no HTML is updated in the master branch.)
+8. `git checkout master dist/demo/MY_UPDATED.html`  (if the master branch is updated.)
+9. `cd ..; make`  (to update `dist/README.md` if need be (ie., if JS or HTML are updated))
+10. `git add -u` and `git commit` (and maybe `git push`)
 
 ### Publishing ###
 
