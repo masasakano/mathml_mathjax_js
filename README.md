@@ -126,12 +126,20 @@ In the developer environment, the following has to be available.
 
 ### make ###
 
-To basic command is `make`, which generates or updates minified (Common) JavsScript files (see below) and `README.html` both under the `tmp/` directory, if any of the relevant files have been updated since the last update. The latter `tmp/README.html` is for local use only (for the convenience of development).
+The basic command is `make`. In the master branch, `make` generates or updates minified (Common) JavsScript files (see below) and `README.html` both under the `tmp/` directory, if any of the relevant files have been updated since the last update. The latter `tmp/README.html` is for local use only (for the convenience of development).
 
 If you want to forcibly update `tmp/README.html` (from `README.md`), run `make doc` .
 
 Routine testing (unit-testing) is carried out with `make test` at the top directory.
 It is far from sufficient.  More browser-dependent test frameworks are desirable.
+
+#### make in gh-pages branch ####
+
+It has the following functions.
+
+* `make` : to update (auto-generate) `dist/README.md` if need be (ie., if JS and/or HTML are updated))
+* `make check` : to check if any update is required.
+  * **NOTE**: This function is, although it probably works, not thoroughly tested. You should know which files should be updated (because they have been updated in the *master* branch) before switching to *gh-pages* branch, anyway. So use `make check` to just confirm it.
 
 ### Minify and "dist" ###
 
@@ -140,18 +148,23 @@ The generated minified ones are compatible with classic JS, whereas the original
 
 In minification, the core function `src/mathml-mpadded-core.js` is combined with one of the wrappers, such as `src/mathml-mpadded.js` .
 
-The generated JS files under `tmp/` should be later copied into the `dist/` directory in the `gh-pages` branch.  The directory `tmp/` is registered in both `master` and `gh-pages` branches (whereas none of the normal files but `.gitignore` under `tmp/` is registered in either) and therefore the generated files are not lost during `git switch`.  That is the idea for this separation. Note that the standard `git diff` is unusable in this case because `XXX.min.js` exists only in the `gh-pages` branch whereas the updated `XXX.js` exists only in the `master` branch. The standard work-flow is as follows:
+The generated JS files under `tmp/` should be later copied into the `dist/` directory in the `gh-pages` branch.  The directory `tmp/` is registered in both `master` and `gh-pages` branches (whereas none of the normal files but `.gitignore` under `tmp/` is registered in either) and therefore the generated files are not lost during `git switch`.  That is the idea for this separation. Note that the standard `git diff` is unusable in this case because `XXX.min.js` exists only in the `gh-pages` branch whereas the updated `XXX.js` exists only in the `master` branch.
 
-1. In the master branch, edit the files as you like.
+The standard work-flow is as follows:
+
+1. In the *master* branch, edit the files as you like.
 2. `make` (and `make test`), which generates minified JSs.
 3. `git commit` (and maybe `git push`)
-4. `git switch gh-pages`
-5. `cd tmp; for f in *.min.js; do diff ../dist/$f $f; done`
-6. `mv MODIFIED.min.js ../dist/`  (and repeat; n.b., this will usually overwrite an existing file.)
-7. `git diff master -- dist/demo/*.html`  (should return none if no HTML is updated in the master branch.)
-8. `git checkout master dist/demo/MY_UPDATED.html`  (if the master branch is updated.)
-9. `cd ..; make`  (to update `dist/README.md` if need be (ie., if JS or HTML are updated))
-10. `git add -u` and `git commit` (and maybe `git push`)
+4. `git switch gh-pages` (Move to *gh-pages* branch)
+5. `make check` (to see if there is any update required, ie., if the corresponding file in the master branch has been updated — usually yes; this does the following checks but does not fix the problems)
+   1. `git diff master -- README.md`
+      * If any diff, run ``git checkout master README.md`
+   2. `for f in tmp/*.min.js; do diff ../dist/`basename $f` $f; done`
+      * If any diff, `mv MODIFIED.min.js ../dist/`  (n.b., this will usually overwrite an existing file.)
+   3. `git diff master -- dist/demo/*.html`  (should return none if no HTML is updated in the master branch.)
+      * If any diff, `git checkout master dist/demo/MY_UPDATED.html`
+6. `cd ..; make`  (to update `dist/README.md` if need be (ie., if JS and/or HTML are updated))
+7. `git add -u` and `git commit` (and maybe `git push`)
 
 ### Publishing ###
 
