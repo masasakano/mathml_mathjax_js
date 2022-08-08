@@ -1,8 +1,8 @@
 
-Handle browser-dependence for MathML with MathJax
+Handle browser-dependence on MathML with MathJax
 ==================================================
 
-This package provides MathML-MathJax related JavaScripts, specifically, a small code to automatically determine to load MathJax or not.
+This package `[mathml_mathjax_js](https://github.com/masasakano/mathml_mathjax_js)` provides MathML-MathJax related JavaScript codes, specifically, small codes to automatically determine to load MathJax or not.
 
 The original repository is hosted on Github: <https://github.com/masasakano/mathml_mathjax_js>  
 The JavaScript and sample HTML files are ported to <https://masasakano.github.io/mathml_mathjax_js/> ([Index](https://masasakano.github.io/mathml_mathjax_js/dist/))
